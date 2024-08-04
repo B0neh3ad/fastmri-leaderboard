@@ -36,7 +36,7 @@ export default function Home() {
     <main>
       <header>
         <h1>2024 FastMRI LeaderBoard</h1>
-        <p>Last Update:<br />{formatDateTime(now)}</p>
+        <p>Last Update: {formatDateTime(now)}</p>
       </header>
       <div id="leaderboard">
         {loading ?
@@ -44,9 +44,9 @@ export default function Home() {
           <table>
             <thead>
               <tr>
-                <th>Rank</th>
-                <th>Team Name</th>
-                <th>SSIM Score</th>
+                <th>순위</th>
+                <th>팀명</th>
+                <th>SSIM</th>
               </tr>
             </thead>
             <tbody>

@@ -34,11 +34,7 @@ export async function GET(req: NextRequest) {
   const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
 
   try {
-    const response = await fetch(url, {
-      headers: {
-        'Cache-Control': 'no-cache'
-      }
-    });
+    const response = await fetch(url, { cache: 'no-store' });
     const data = await response.json();
     const sortedData: TeamInfo[] = parseData(data).sort(compareData);
 

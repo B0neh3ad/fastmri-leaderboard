@@ -19,10 +19,10 @@ function formatDateTime(now: Date) {
 export default function Home() {
   const [data, setData] = useState<TeamInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const now = new Date();
+  const [now, setNow] = useState<Date>(new Date());
 
   useEffect(() => {
+    setNow(new Date());
     setLoading(true);
     fetch('/api/sheet-data')
       .then((response) => response.json())

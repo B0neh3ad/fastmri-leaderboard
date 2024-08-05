@@ -35,7 +35,7 @@ export default function Home() {
   return (
     <main>
       <header>
-        <h1>2024 FastMRI LeaderBoard</h1>
+        <h1>2024 SNU FastMRI Challenge Leaderboard</h1>
         <p>Last Update: {formatDateTime(now)}</p>
       </header>
       <div id="leaderboard">

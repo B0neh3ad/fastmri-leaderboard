@@ -73,6 +73,9 @@ tbody tr.top {
 
   & td {
     filter: drop-shadow(2px 2px 0 black);
+    @media (max-width: 768px) {
+      filter: drop-shadow(1px 1px 1px black);
+    }
   }
 
   & .rank {

@@ -20,6 +20,7 @@ export default function Home() {
   const [data, setData] = useState<TeamInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [now, setNow] = useState<Date>(new Date());
+  const [hideZero, SetHideZero] = useState<boolean>(true);
 
   useEffect(() => {
     setNow(new Date());
@@ -37,6 +38,10 @@ export default function Home() {
       <header>
         <h1>2024 SNU FastMRI Challenge Leaderboard</h1>
         <p>Last Update: {formatDateTime(now)}</p>
+        <label>
+          <input type="checkbox" onChange={(e) => SetHideZero(e.target.checked)} />
+          0점 팀 숨기기
+        </label>
       </header>
       <div id="leaderboard">
         {loading ?
@@ -51,6 +56,7 @@ export default function Home() {
             </thead>
             <tbody>
               {data.map((teamInfo, idx) => (
+                (!hideZero || teamInfo.ssimScore !== 0) && 
                 <tr key={teamInfo.name} className={teamInfo.rank <= 5 ? "top" : ""}>
                   <td className="rank">{teamInfo.rank}</td>
                   <td className="name">{teamInfo.name}</td>

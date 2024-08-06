@@ -38,6 +38,14 @@ header p {
   font-size: 0.8rem;
 }
 
+header label {
+  margin-top: 1.5rem;
+  font-size: 1.2rem;
+  & input {
+    margin-right: 0.5rem;
+  }
+}
+
 #leaderboard {
   width: 100%;
   position: relative;

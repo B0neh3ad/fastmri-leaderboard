@@ -20,7 +20,7 @@ export default function Home() {
   const [data, setData] = useState<TeamInfo[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [now, setNow] = useState<Date>(new Date());
-  const [hideZero, SetHideZero] = useState<boolean>(true);
+  const [hideZero, SetHideZero] = useState<boolean>(false);
 
   useEffect(() => {
     setNow(new Date());

@@ -1,3 +1,3 @@
-# FastMRI Leaderboard
+# 2025 SNU FastMRI Challenge Leaderboard
 
-내가 보기 편하려고 만든 fastMRI Leaderboard 페이지
+2025 SNU FastMRI Challenge의 리더보드 웹사이트입니다.

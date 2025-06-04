@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <main>
       <header>
-        <h1>2024 SNU FastMRI Challenge Leaderboard</h1>
+        <h1>2025 SNU FastMRI Challenge Leaderboard</h1>
         <p>Last Update: {formatDateTime(now)}</p>
         <label>
           <input type="checkbox" onChange={(e) => SetHideZero(e.target.checked)} />
@@ -44,7 +44,7 @@ export default function Home() {
         </label>
       </header>
       <div id="leaderboard">
-        {loading ?
+        {/* {loading ?
           <div style={{'textAlign': 'center'}}>로딩 중...</div> :
           <table>
             <thead>
@@ -65,7 +65,8 @@ export default function Home() {
               ))}
             </tbody>
           </table>
-          }
+          } */}
+          <div style={{'textAlign': 'center'}}>준비 중입니다.</div>
       </div>
     </main>
   );

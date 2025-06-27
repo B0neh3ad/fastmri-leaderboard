@@ -2,19 +2,12 @@
 
 import { useEffect, useState } from "react";
 import './page.css';
-import { TeamInfo } from "./api/sheet-data/route";
-import { useRouter } from "next/router";
 
-function formatDateTime(now: Date) {
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
-  const date = now.getDate();
-
-  const hours = String(now.getHours()).padStart(2, "0");
-  const minutes = String(now.getMinutes()).padStart(2, "0");
-
-  return `${year}년 ${month}월 ${date}일 ${hours}:${minutes}`
-}
+interface TeamInfo {
+    rank: number;
+    team: string;
+    score: number;
+};
 
 export default function Home() {
   const [data, setData] = useState<TeamInfo[]>([]);
@@ -23,9 +16,11 @@ export default function Home() {
   const [hideZero, SetHideZero] = useState<boolean>(false);
 
   useEffect(() => {
+    const API_URL = `https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_SHEET_ID}/exec`;
+
     setNow(new Date());
     setLoading(true);
-    fetch('/api/sheet-data')
+    fetch(API_URL)
       .then((response) => response.json())
       .then((data) => {
         setData(data);
@@ -37,11 +32,6 @@ export default function Home() {
     <main>
       <header>
         <h1>2025 SNU FastMRI Challenge Leaderboard</h1>
-        <p>Last Update: {formatDateTime(now)}</p>
-        <label>
-          <input type="checkbox" onChange={(e) => SetHideZero(e.target.checked)} />
-          0점 팀 숨기기
-        </label>
       </header>
       <div id="leaderboard">
         {/* {loading ?
@@ -56,11 +46,11 @@ export default function Home() {
             </thead>
             <tbody>
               {data.map((teamInfo, idx) => (
-                (!hideZero || teamInfo.ssimScore !== 0) && 
-                <tr key={teamInfo.name} className={teamInfo.rank <= 5 ? "top" : ""}>
+                (!hideZero || teamInfo.score !== 0) && 
+                <tr key={teamInfo.team} className={`rank-${teamInfo.rank} ${teamInfo.rank <= 5 ? 'top' : ''}`}>
                   <td className="rank">{teamInfo.rank}</td>
-                  <td className="name">{teamInfo.name}</td>
-                  <td className="score">{teamInfo.ssimScore}</td>
+                  <td className="name">{teamInfo.team}</td>
+                  <td className="score">{teamInfo.score}</td>
                 </tr>
               ))}
             </tbody>

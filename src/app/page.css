@@ -157,15 +157,15 @@ th:first-child, .rank {
   }
 }
 
-tbody tr:first-child .rank {
+tbody tr.rank-1 td:first-child {
   color: #D5A11E;
 }
 
-tbody tr:nth-child(2) .rank {
+tbody tr.rank-2 td:first-child {
   color: #A3A3A3;
 }
 
-tbody tr:nth-child(3) .rank {
+tbody tr.rank-3 td:first-child {
   color: #CD7F32;
 }
 

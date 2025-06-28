@@ -75,7 +75,7 @@ export default function Home() {
             </tbody>
           </table>
           } */}
-          <div style={{'textAlign': 'center'}}>준비 중입니다.</div>
+          <div style={{'textAlign': 'center', 'marginBottom': '2rem'}}>준비 중입니다.<br />(8월 이후 leaderboard 공개 예정)</div>
       </div>
     </main>
   );

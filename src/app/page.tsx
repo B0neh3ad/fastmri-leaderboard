@@ -2,18 +2,27 @@
 
 import { useEffect, useState } from "react";
 import './page.css';
-import { TeamInfo } from "./api/sheet-data/route";
-import { useRouter } from "next/router";
 
-function formatDateTime(now: Date) {
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
-  const date = now.getDate();
+interface TeamInfo {
+    rank: number;
+    team: string;
+    score: number;
+    timestamp: string;
+};
 
-  const hours = String(now.getHours()).padStart(2, "0");
-  const minutes = String(now.getMinutes()).padStart(2, "0");
+// Fri Jun 27 2025 22:07:20 GMT+0900 (Korean Standard Time) -> 2025-06-27 22:07:20
+function parseDateString(dateStr: string): string {
+  const date = new Date(dateStr);
+  const pad = (n: number) => n.toString().padStart(2, '0');
 
-  return `${year}년 ${month}월 ${date}일 ${hours}:${minutes}`
+  const year = date.getFullYear();
+  const month = pad(date.getMonth() + 1); // getMonth()는 0부터 시작
+  const day = pad(date.getDate());
+  const hours = pad(date.getHours());
+  const minutes = pad(date.getMinutes());
+  const seconds = pad(date.getSeconds());
+
+  return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
 export default function Home() {
@@ -23,9 +32,12 @@ export default function Home() {
   const [hideZero, SetHideZero] = useState<boolean>(false);
 
   useEffect(() => {
+    const API_URL = `https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_SHEET_ID}/exec`;
+    // const API_URL = `https://script.google.com/macros/s/AKfycbym6hkfpo22xVReAqyE4QApacer0vbkSzo4IlnTkS8/dev`;
+
     setNow(new Date());
     setLoading(true);
-    fetch('/api/sheet-data')
+    fetch(API_URL)
       .then((response) => response.json())
       .then((data) => {
         setData(data);
@@ -36,36 +48,34 @@ export default function Home() {
   return (
     <main>
       <header>
-        <h1>2024 SNU FastMRI Challenge Leaderboard</h1>
-        <p>Last Update: {formatDateTime(now)}</p>
-        <label>
-          <input type="checkbox" onChange={(e) => SetHideZero(e.target.checked)} />
-          0점 팀 숨기기
-        </label>
+        <h1>2025 SNU FastMRI Challenge Leaderboard</h1>
       </header>
       <div id="leaderboard">
-        {loading ?
+        {/* {loading ?
           <div style={{'textAlign': 'center'}}>로딩 중...</div> :
           <table>
             <thead>
               <tr>
-                <th>순위</th>
-                <th>팀명</th>
+                <th>Rank</th>
+                <th>Team</th>
                 <th>SSIM</th>
+                <th>Last Submission Date</th>
               </tr>
             </thead>
             <tbody>
               {data.map((teamInfo, idx) => (
-                (!hideZero || teamInfo.ssimScore !== 0) && 
-                <tr key={teamInfo.name} className={teamInfo.rank <= 5 ? "top" : ""}>
+                (!hideZero || teamInfo.score !== 0) && 
+                <tr key={teamInfo.team} className={`rank-${teamInfo.rank} ${teamInfo.rank <= 5 ? 'top' : ''}`}>
                   <td className="rank">{teamInfo.rank}</td>
-                  <td className="name">{teamInfo.name}</td>
-                  <td className="score">{teamInfo.ssimScore}</td>
+                  <td className="name">{teamInfo.team}</td>
+                  <td className="score">{teamInfo.score}</td>
+                  <td className="timestamp">{parseDateString(teamInfo.timestamp)}</td>
                 </tr>
               ))}
             </tbody>
           </table>
-          }
+          } */}
+          <div style={{'textAlign': 'center', 'marginBottom': '2rem'}}>준비 중입니다.<br />(8월 이후 leaderboard 공개 예정)</div>
       </div>
     </main>
   );

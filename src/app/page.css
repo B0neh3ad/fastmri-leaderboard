@@ -30,7 +30,7 @@ h1 {
   text-align: center;
   
   @media (max-width: 768px) {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -117,6 +117,10 @@ th {
   padding-bottom: 0.5rem;
   position: relative;
   overflow: hidden;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
 }
 
 th:first-child {
@@ -124,15 +128,15 @@ th:first-child {
 }
 
 th:last-child {
-  width: 10rem;
+  width: 15rem;
 
   @media (max-width: 768px) {
-    width: 7rem;
+    width: 10rem;
   }
 }
 
 td {
-  height: 5rem;
+  height: 4rem;
   font-size: 1.4rem;
   padding: 1rem 1.5rem;
   position: relative;
@@ -157,15 +161,15 @@ th:first-child, .rank {
   }
 }
 
-tbody tr:first-child .rank {
+tbody tr.rank-1 td:first-child {
   color: #D5A11E;
 }
 
-tbody tr:nth-child(2) .rank {
+tbody tr.rank-2 td:first-child {
   color: #A3A3A3;
 }
 
-tbody tr:nth-child(3) .rank {
+tbody tr.rank-3 td:first-child {
   color: #CD7F32;
 }
 
@@ -190,15 +194,18 @@ tbody tr:nth-child(3) .rank {
   }
 }
 
+.timestamp {
+  font-size: 1.2rem;
+  text-align: center;
+
+  @media (max-width: 768px) {
+    font-size: 0.9rem;
+  }
+}
+
 .gold-medal {
   height: 3rem;
   margin-left: 1.5rem;
-}
-
-@media (max-width: 768px) {
-    * {
-      font-size: 80%;
-    }
 }
 
 @keyframes tableSlide {

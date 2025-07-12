@@ -9,7 +9,7 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <head>
-        <title>2024 SNU FastMRI Challenge Leaderboard</title>
+        <title>2025 SNU FastMRI Challenge Leaderboard</title>
         <meta charSet="utf-8" />
         <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css' rel='stylesheet' type='text/css' />
       </head>

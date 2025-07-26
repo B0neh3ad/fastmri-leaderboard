@@ -40,7 +40,7 @@ export default function Home() {
   const [now, setNow] = useState<Date>(new Date());
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [lastSubmissionsPage, setLastSubmissionsPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
+  const [leaderboardTotalPages, setLeaderboardTotalPages] = useState<number>(1);
   const [lastSubmissionsTotalPages, setLastSubmissionsTotalPages] = useState<number>(1);
 
   const API_URL = `https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_SHEET_ID}/exec`;
@@ -53,7 +53,6 @@ export default function Home() {
       .then((result) => {
         console.log('Leaderboard data:', result);
         setData(result.data || result);
-        setTotalPages(result.totalPages || 1);
         setLeaderboardLoading(false);
       })
       .catch((error) => {
@@ -69,7 +68,6 @@ export default function Home() {
       .then((result) => {
         console.log('Last submissions data:', result);
         setLastSubmissions(result.data || result);
-        setLastSubmissionsTotalPages(result.totalPages || 1);
         setLastSubmissionsLoading(false);
       })
       .catch((error) => {
@@ -78,8 +76,31 @@ export default function Home() {
       });
   };
 
+  const fetchStats = () => {
+    fetch(`${API_URL}?path=leaderboard-stats`)
+      .then((response) => response.json())
+      .then((result) => {
+        setLeaderboardTotalPages(result.totalPages || 1);
+      })
+      .catch((error) => {
+        console.error('Error fetching stats:', error);
+      });
+
+    fetch(`${API_URL}?path=last-submission-stats`)
+      .then((response) => response.json())
+      .then((result) => {
+        setLastSubmissionsTotalPages(result.totalPages || 1);
+      })
+      .catch((error) => {
+        console.error('Error fetching stats:', error);
+      });
+  };
+
   useEffect(() => {
-    setNow(new Date());
+    fetchStats();
+  }, []);
+
+  useEffect(() => {
     fetchLeaderboard(currentPage);
   }, [currentPage]);
 
@@ -128,10 +149,10 @@ export default function Home() {
           >
             Previous
           </button>
-          <span>Page {currentPage} of {totalPages}</span>
+          <span>Page {currentPage} of {leaderboardTotalPages}</span>
           <button 
-            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-            disabled={currentPage === totalPages}
+            onClick={() => setCurrentPage(prev => Math.min(leaderboardTotalPages, prev + 1))}
+            disabled={currentPage === leaderboardTotalPages}
           >
             Next
           </button>

@@ -82,7 +82,7 @@ export default function Home() {
   useEffect(() => {
     fetchLeaderboard();
     fetchLastSubmissions();
-  }, []);
+  }, [fetchLeaderboard, fetchLastSubmissions]);
 
   useEffect(() => {
     setLeaderboardTotalPages(Math.ceil(leaderboard.length / 10));

@@ -20,8 +20,7 @@ jobs:
 
       - name: .env setting
         run: |
-          echo "SPREADSHEETS_ID=${{ secrets.SPREADSHEETS_ID }}" >> .env
-          echo "GAPI_KEY=${{ secrets.GAPI_KEY }}" >> .env
+          echo "NEXT_PUBLIC_SHEET_ID=${{ secrets.NEXT_PUBLIC_SHEET_ID }}" >> .env
         
       - name: Install dependencies
         run: npm install

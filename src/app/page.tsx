@@ -111,13 +111,17 @@ export default function Home() {
               <th>Rank</th>
               <th>Team</th>
               <th>SSIM</th>
-              <th>Last Submission Date</th>
+              <th>Submission Date</th>
             </tr>
           </thead>
           <tbody>
             {leaderboardLoading ?
               <tr style={{ 'textAlign': 'center' }}>
                 <td colSpan={4}>로딩 중...</td>
+              </tr> :
+              currentLeaderboard.length === 0 ?
+              <tr style={{ 'textAlign': 'center' }}>
+                <td colSpan={4}>아직 제출한 팀이 없어요. 첫 번째 제출의 주인공이 되어보세요!</td>
               </tr> :
               currentLeaderboard.map((teamInfo) => (
                 <tr key={`${teamInfo.team}-rank${teamInfo.rank}`} className={`rank-${teamInfo.rank} ${teamInfo.rank <= 5 ? 'top' : ''}`}>
@@ -131,7 +135,7 @@ export default function Home() {
         </table>
       </div>
 
-      {!leaderboardLoading && (
+      {!leaderboardLoading && currentLeaderboard.length > 0 && (
         <div className="pagination">
           <button
             onClick={() => setLeaderboardPage(prev => Math.max(1, prev - 1))}
@@ -166,6 +170,10 @@ export default function Home() {
                 <tr style={{ 'textAlign': 'center' }}>
                   <td colSpan={4}>로딩 중...</td>
                 </tr> :
+                currentLastSubmissions.length === 0 ?
+                <tr style={{ 'textAlign': 'center' }}>
+                  <td colSpan={4}>아직 제출한 팀이 없어요. 첫 번째 제출의 주인공이 되어보세요!</td>
+                </tr> :
                 currentLastSubmissions.map((submission) => (
                   <tr key={`${submission.team}-idx${submission.idx}`}>
                     <td className="rank">{submission.idx}</td>
@@ -178,7 +186,7 @@ export default function Home() {
           </table>
         </div>
 
-        {!lastSubmissionsLoading && (
+        {!lastSubmissionsLoading && currentLastSubmissions.length > 0 && (
           <div className="pagination">
             <button
               onClick={() => setLastSubmissionsPage(prev => Math.max(1, prev - 1))}

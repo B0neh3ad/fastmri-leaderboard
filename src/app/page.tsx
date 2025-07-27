@@ -47,7 +47,6 @@ export default function Home() {
   const [lastSubmissionsTotalPages, setLastSubmissionsTotalPages] = useState<number>(1);
 
   const API_URL = `https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_SHEET_ID}/exec`;
-  // const API_URL = `https://script.google.com/macros/s/AKfycbxkxu5x6TsV-8OODevlhpOgDwUNNltSLtyCP3Q_Ck4/dev`;
 
   const fetchLeaderboard = () => {
     setLeaderboardLoading(true);
@@ -124,7 +123,7 @@ export default function Home() {
                 <tr key={`${teamInfo.team}-rank${teamInfo.rank}`} className={`rank-${teamInfo.rank} ${teamInfo.rank <= 5 ? 'top' : ''}`}>
                   <td className="rank">{teamInfo.rank}</td>
                   <td className="name">{teamInfo.team}</td>
-                  <td className="score">{teamInfo.score.toFixed(4) || 'N/A'}</td>
+                  <td className="score">{teamInfo.score ? teamInfo.score.toFixed(4) : 'N/A'}</td>
                   <td className="timestamp">{parseDateString(teamInfo.timestamp)}</td>
                 </tr>
               ))}
@@ -171,7 +170,7 @@ export default function Home() {
                   <tr key={`${submission.team}-idx${submission.idx}`}>
                     <td className="rank">{submission.idx}</td>
                     <td className="name">{submission.team}</td>
-                    <td className="score">{submission.score.toFixed(4) || 'N/A'}</td>
+                    <td className="score">{submission.score ? submission.score.toFixed(4) : 'N/A'}</td>
                     <td className="timestamp">{parseDateString(submission.timestamp)}</td>
                   </tr>
                 ))}

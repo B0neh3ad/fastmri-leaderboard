@@ -124,7 +124,7 @@ export default function Home() {
                 <tr key={`${teamInfo.team}-rank${teamInfo.rank}`} className={`rank-${teamInfo.rank} ${teamInfo.rank <= 5 ? 'top' : ''}`}>
                   <td className="rank">{teamInfo.rank}</td>
                   <td className="name">{teamInfo.team}</td>
-                  <td className="score">{teamInfo.score || 'N/A'}</td>
+                  <td className="score">{teamInfo.score.toFixed(4) || 'N/A'}</td>
                   <td className="timestamp">{parseDateString(teamInfo.timestamp)}</td>
                 </tr>
               ))}
@@ -171,7 +171,7 @@ export default function Home() {
                   <tr key={`${submission.team}-idx${submission.idx}`}>
                     <td className="rank">{submission.idx}</td>
                     <td className="name">{submission.team}</td>
-                    <td className="score">{submission.score || 'N/A'}</td>
+                    <td className="score">{submission.score.toFixed(4) || 'N/A'}</td>
                     <td className="timestamp">{parseDateString(submission.timestamp)}</td>
                   </tr>
                 ))}

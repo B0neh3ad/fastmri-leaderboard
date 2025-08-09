@@ -45,8 +45,10 @@ export default function Home() {
   const [lastSubmissionsPage, setLastSubmissionsPage] = useState<number>(1);
   const [leaderboardTotalPages, setLeaderboardTotalPages] = useState<number>(1);
   const [lastSubmissionsTotalPages, setLastSubmissionsTotalPages] = useState<number>(1);
+  const [noticeVisible, setNoticeVisible] = useState<boolean>(true);
 
-  const API_URL = `https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_SHEET_ID}/exec`;
+  // const API_URL = `https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_SHEET_ID}/exec`;
+  const API_URL = `https://script.google.com/macros/s/AKfycbx8Cs8iBDvzPyD31sx4WRNEa1PFo7nxt68D3AOSRiALiLLr8AeTUsXGGsDlihKnR0Lk/exec`;
 
   const fetchLeaderboard = () => {
     setLeaderboardLoading(true);
@@ -104,6 +106,39 @@ export default function Home() {
       <header>
         <h1>2025 SNU FastMRI Challenge Leaderboard</h1>
       </header>
+      
+      {/* 공지 메시지 */}
+      {noticeVisible && (
+        <div className="notice-container">
+          <div className="notice-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="12" r="10" fill="#0969da"/>
+              <path d="M12 16v-4" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+              <path d="M12 8h.01" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+          </div>
+          <div className="notice-content">
+            <div className="notice-title">Leaderboard Freeze 안내</div>
+            <div className="notice-text">
+              <strong>8월 14일 0시</strong>부터 대회 종료 시(8월 20일 23시 59분)까지 Leaderboard가 <strong>Freeze</strong>될 예정입니다.
+            </div>
+            <div className="notice-text">
+              해당 시점에 제출된 결과는 Leaderboard에 반영되지 않습니다.
+            </div>
+          </div>
+          <button 
+            className="notice-close-btn"
+            onClick={() => setNoticeVisible(false)}
+            aria-label="공지사항 닫기"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <path d="M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      )}
+
       <div id="leaderboard">
         <table>
           <thead>
@@ -117,7 +152,12 @@ export default function Home() {
           <tbody>
             {leaderboardLoading ?
               <tr style={{ 'textAlign': 'center' }}>
-                <td colSpan={4}>로딩 중...</td>
+                <td colSpan={4}>
+                  <div className="loading-container">
+                    <div className="loading-spinner"></div>
+                    <span className="loading-text">로딩 중...</span>
+                  </div>
+                </td>
               </tr> :
               currentLeaderboard.length === 0 ?
               <tr style={{ 'textAlign': 'center' }}>
@@ -168,7 +208,12 @@ export default function Home() {
             <tbody>
               {lastSubmissionsLoading ?
                 <tr style={{ 'textAlign': 'center' }}>
-                  <td colSpan={4}>로딩 중...</td>
+                  <td colSpan={4}>
+                    <div className="loading-container">
+                      <div className="loading-spinner"></div>
+                      <span className="loading-text">로딩 중...</span>
+                    </div>
+                  </td>
                 </tr> :
                 currentLastSubmissions.length === 0 ?
                 <tr style={{ 'textAlign': 'center' }}>

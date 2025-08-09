@@ -47,8 +47,7 @@ export default function Home() {
   const [lastSubmissionsTotalPages, setLastSubmissionsTotalPages] = useState<number>(1);
   const [noticeVisible, setNoticeVisible] = useState<boolean>(true);
 
-  // const API_URL = `https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_SHEET_ID}/exec`;
-  const API_URL = `https://script.google.com/macros/s/AKfycbx8Cs8iBDvzPyD31sx4WRNEa1PFo7nxt68D3AOSRiALiLLr8AeTUsXGGsDlihKnR0Lk/exec`;
+  const API_URL = `https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_SHEET_ID}/exec`;
 
   const fetchLeaderboard = () => {
     setLeaderboardLoading(true);
@@ -120,7 +119,7 @@ export default function Home() {
           <div className="notice-content">
             <div className="notice-title">Leaderboard Freeze 안내</div>
             <div className="notice-text">
-              <strong>8월 14일 0시</strong>부터 대회 종료 시(8월 20일 23시 59분)까지 Leaderboard가 <strong>Freeze</strong>될 예정입니다.
+              <strong>8월 14일(목) 0시</strong>부터 대회 종료 시(8월 20일(수) 23시 59분)까지 Leaderboard가 <strong>Freeze</strong>될 예정입니다.
             </div>
             <div className="notice-text">
               해당 시점에 제출된 결과는 Leaderboard에 반영되지 않습니다.

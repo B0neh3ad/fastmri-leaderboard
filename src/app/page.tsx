@@ -14,7 +14,7 @@ interface LastSubmission {
   idx: number;
   timestamp: string;
   team: string;
-  score: number;
+  score: string;
 };
 
 // Fri Jun 27 2025 22:07:20 GMT+0900 (Korean Standard Time) -> 2025-06-27 22:07:20
@@ -32,6 +32,12 @@ function parseDateString(dateStr: string): string {
   return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
 }
 
+function isParsableFloat(value: string) {
+  return typeof value === "number"
+    ? Number.isFinite(value) // 이미 number 타입이면 finite 체크
+    : isFinite(Number(value)); // 문자열 등 변환 시도
+}
+
 export default function Home() {
   const [leaderboard, setLeaderboard] = useState<TeamInfo[]>([]);
   const [currentLeaderboard, setCurrentLeaderboard] = useState<TeamInfo[]>([]);
@@ -47,14 +53,15 @@ export default function Home() {
   const [lastSubmissionsTotalPages, setLastSubmissionsTotalPages] = useState<number>(1);
   const [noticeVisible, setNoticeVisible] = useState<boolean>(true);
 
-  const API_URL = `https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_SHEET_ID}/exec`;
+  // const API_URL = `https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_SHEET_ID}/exec`;
+  const API_URL = 'https://script.google.com/macros/s/AKfycbx8Cs8iBDvzPyD31sx4WRNEa1PFo7nxt68D3AOSRiALiLLr8AeTUsXGGsDlihKnR0Lk/exec';
 
   const fetchLeaderboard = () => {
     setLeaderboardLoading(true);
     fetch(`${API_URL}?path=leaderboard`)
       .then((response) => response.json())
       .then((result) => {
-        console.log('Leaderboard data:', result);
+        // console.log('Leaderboard data:', result);
         setLeaderboard(result.data || result);
         setLeaderboardLoading(false);
       })
@@ -69,7 +76,7 @@ export default function Home() {
     fetch(`${API_URL}?path=last-submission`)
       .then((response) => response.json())
       .then((result) => {
-        console.log('Last submissions data:', result);
+        // console.log('Last submissions data:', result);
         setLastSubmissions(result.data || result);
         setLastSubmissionsLoading(false);
       })
@@ -222,7 +229,7 @@ export default function Home() {
                   <tr key={`${submission.team}-idx${submission.idx}`}>
                     <td className="rank">{submission.idx}</td>
                     <td className="name">{submission.team}</td>
-                    <td className="score">{submission.score ? submission.score.toFixed(4) : 'N/A'}</td>
+                    <td className="score">{isParsableFloat(submission.score) ? Number(submission.score).toFixed(4) : '0.????'}</td>
                     <td className="timestamp">{parseDateString(submission.timestamp)}</td>
                   </tr>
                 ))}

@@ -119,10 +119,10 @@ export default function Home() {
           <div className="notice-content">
             <div className="notice-title">Leaderboard Freeze 안내</div>
             <div className="notice-text">
-              <strong>8월 14일(목) 0시</strong>부터 대회 종료 시(8월 20일(수) 23시 59분)까지 Leaderboard가 <strong>Freeze</strong>될 예정입니다.
+              <strong>Leaderboard가 freeze되었습니다.</strong> 현 시점에서 제출된 결과는 Leaderboard에 반영되지 않으나, <strong>유효한 제출</strong>입니다.
             </div>
             <div className="notice-text">
-              해당 시점에 제출된 결과는 Leaderboard에 반영되지 않습니다.
+              대회 기간 중 <strong>마지막 제출</strong>이 leaderboard set에 대한 SSIM 점수로서 평가에 반영됩니다.
             </div>
           </div>
           <button 

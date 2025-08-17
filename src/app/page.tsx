@@ -52,7 +52,7 @@ export default function Home() {
   const [lastSubmissionsPage, setLastSubmissionsPage] = useState<number>(1);
   const [leaderboardTotalPages, setLeaderboardTotalPages] = useState<number>(1);
   const [lastSubmissionsTotalPages, setLastSubmissionsTotalPages] = useState<number>(1);
-  const [noticeVisible, setNoticeVisible] = useState<boolean>(false);
+  const [noticeVisible, setNoticeVisible] = useState<boolean>(true);
   const [timeRemaining, setTimeRemaining] = useState<string>('');
   const [isContestEnded, setIsContestEnded] = useState<boolean>(false);
   const [timerExpanded, setTimerExpanded] = useState<boolean>(true);
@@ -224,7 +224,7 @@ export default function Home() {
         </>
       )}</div>
 
-      {noticeVisible && <Notice />}
+      {noticeVisible && <Notice setNoticeVisible={setNoticeVisible} />}
 
       <div id="leaderboard">
         <table>

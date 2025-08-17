@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import './page.css';
+import Notice from "./notice";
 
 interface TeamInfo {
   rank: number;
@@ -51,7 +52,10 @@ export default function Home() {
   const [lastSubmissionsPage, setLastSubmissionsPage] = useState<number>(1);
   const [leaderboardTotalPages, setLeaderboardTotalPages] = useState<number>(1);
   const [lastSubmissionsTotalPages, setLastSubmissionsTotalPages] = useState<number>(1);
-  const [noticeVisible, setNoticeVisible] = useState<boolean>(true);
+  const [noticeVisible, setNoticeVisible] = useState<boolean>(false);
+  const [timeRemaining, setTimeRemaining] = useState<string>('');
+  const [isContestEnded, setIsContestEnded] = useState<boolean>(false);
+  const [timerExpanded, setTimerExpanded] = useState<boolean>(true);
 
   // const API_URL = `https://script.google.com/macros/s/${process.env.NEXT_PUBLIC_SHEET_ID}/exec`;
   const API_URL = 'https://script.google.com/macros/s/AKfycbx8Cs8iBDvzPyD31sx4WRNEa1PFo7nxt68D3AOSRiALiLLr8AeTUsXGGsDlihKnR0Lk/exec';
@@ -107,43 +111,121 @@ export default function Home() {
     setCurrentLastSubmissions(lastSubmissions.slice((lastSubmissionsPage - 1) * 10, lastSubmissionsPage * 10));
   }, [lastSubmissions, lastSubmissionsPage]);
 
+  useEffect(() => {
+    const endDate = new Date('2025-08-21T00:00:00+09:00');
+    let interval: NodeJS.Timeout;
+    
+    const updateTimer = () => {
+      const now = new Date();
+      const diff = endDate.getTime() - now.getTime();
+      
+      if (diff <= 0) {
+        setTimeRemaining('대회가 종료되었습니다');
+        setIsContestEnded(true);
+        clearInterval(interval);
+        return;
+      }
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      
+      setTimeRemaining(`${days}일 ${hours}시간 ${minutes}분 ${seconds}초`);
+    };
+    
+    updateTimer();
+    interval = setInterval(updateTimer, 1000);
+    
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <main>
       <header>
         <h1>2025 SNU FastMRI Challenge Leaderboard</h1>
       </header>
-      
-      {/* 공지 메시지 */}
-      {noticeVisible && (
-        <div className="notice-container">
-          <div className="notice-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="10" fill="#0969da"/>
-              <path d="M12 16v-4" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-              <path d="M12 8h.01" stroke="white" strokeWidth="2" strokeLinecap="round"/>
-            </svg>
-          </div>
-          <div className="notice-content">
-            <div className="notice-title">Leaderboard Freeze 안내</div>
-            <div className="notice-text">
-              <strong>Leaderboard가 freeze되었습니다.</strong> 현 시점에서 제출된 결과는 Leaderboard에 반영되지 않으나, <strong>유효한 제출</strong>입니다.
-            </div>
-            <div className="notice-text">
-              대회 기간 중 <strong>마지막 제출</strong>이 leaderboard set에 대한 SSIM 점수로서 평가에 반영됩니다.
-            </div>
-          </div>
-          <button 
-            className="notice-close-btn"
-            onClick={() => setNoticeVisible(false)}
-            aria-label="공지사항 닫기"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M6 6l12 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+
+      <div id="counter" className={isContestEnded ? 'contest-ended' : ''}>
+        <div className="timer-header" onClick={() => setTimerExpanded(!timerExpanded)}>
+          {!isContestEnded && (
+            <div className="timer-label">대회 종료까지</div>
+          )}
+          <button className="accordion-toggle" aria-expanded={timerExpanded}>
+            <svg 
+              width="16" 
+              height="16" 
+              viewBox="0 0 16 16" 
+              fill="currentColor"
+              style={{ transform: timerExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+            >
+              <path d="M4 6l4 4 4-4H4z"/>
             </svg>
           </button>
         </div>
-      )}
+        <div className={`timer-content ${timerExpanded ? 'expanded' : 'collapsed'}`}>
+          <div className="timer-container">
+            {isContestEnded ? (
+              <div style={{ color: '#c62828', fontSize: '24px', fontWeight: 'bold' }}>
+                {timeRemaining}
+              </div>
+            ) : (
+              <>
+                {(() => {
+                  const match = timeRemaining.match(/(\d+)일 (\d+)시간 (\d+)분 (\d+)초/);
+                  if (!match) return <div>{timeRemaining}</div>;
+                  
+                  const [, days, hours, minutes, seconds] = match;
+                  
+                  return (
+                    <>
+                      <div className="timer-unit">
+                        <div className="timer-digits">
+                          <div className="timer-digit">{days.padStart(2, '0')[0]}</div>
+                          <div className="timer-digit">{days.padStart(2, '0')[1]}</div>
+                        </div>
+                        <div className="timer-label-text">DAYS</div>
+                      </div>
+                      
+                      <div className="timer-separator">:</div>
+                      
+                      <div className="timer-unit">
+                        <div className="timer-digits">
+                          <div className="timer-digit">{hours.padStart(2, '0')[0]}</div>
+                          <div className="timer-digit">{hours.padStart(2, '0')[1]}</div>
+                        </div>
+                        <div className="timer-label-text">HRS</div>
+                      </div>
+                      
+                      <div className="timer-separator">:</div>
+                      
+                      <div className="timer-unit">
+                        <div className="timer-digits">
+                          <div className="timer-digit">{minutes.padStart(2, '0')[0]}</div>
+                          <div className="timer-digit">{minutes.padStart(2, '0')[1]}</div>
+                        </div>
+                        <div className="timer-label-text">MIN</div>
+                      </div>
+                      
+                      <div className="timer-separator">:</div>
+                      
+                      <div className="timer-unit">
+                        <div className="timer-digits">
+                          <div className="timer-digit">{seconds.padStart(2, '0')[0]}</div>
+                          <div className="timer-digit">{seconds.padStart(2, '0')[1]}</div>
+                        </div>
+                        <div className="timer-label-text">SEC</div>
+                      </div>
+                    </>
+                  );
+                })()}
+              </>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {noticeVisible && <Notice />}
 
       <div id="leaderboard">
         <table>

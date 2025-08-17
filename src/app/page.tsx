@@ -149,7 +149,7 @@ export default function Home() {
       <div id="counter" className={isContestEnded ? 'contest-ended' : ''}>
         <div className="timer-header" onClick={() => setTimerExpanded(!timerExpanded)}>
           {!isContestEnded && (
-            <div className="timer-label">대회 종료까지</div>
+            <div className="timer-label">Leaderboard Score 제출 마감까지</div>
           )}
           <button className="accordion-toggle" aria-expanded={timerExpanded}>
             <svg 

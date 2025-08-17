@@ -165,6 +165,27 @@ header label {
   color: #6c757d;
 }
 
+.closed-notice {
+  color: #007bff;
+  font-size: 24px;
+  font-weight: bold;
+  word-break: keep-all;
+  text-align: center;
+  margin-bottom: 10px;
+
+  @media (max-width: 768px) {
+    font-size: 18px;
+  }
+}
+
+.closed-description {
+  font-size: 16px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+}
+
 #counter {
   display: flex;
   width: 577px;
@@ -246,7 +267,7 @@ header label {
 
 .timer-content.expanded {
   display: block;
-  padding: 0 30px 30px 30px;
+  padding: 0 0 30px 0;
   
   @media (max-width: 768px) {
     padding: 0 0 20px 0;

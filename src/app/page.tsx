@@ -114,29 +114,29 @@ export default function Home() {
   useEffect(() => {
     const endDate = new Date('2025-08-21T00:00:00+09:00');
     let interval: NodeJS.Timeout;
-    
+
     const updateTimer = () => {
       const now = new Date();
       const diff = endDate.getTime() - now.getTime();
-      
+
       if (diff <= 0) {
-        setTimeRemaining('대회가 종료되었습니다');
+        setTimeRemaining('Leaderboard 제출이 마감되었습니다!');
         setIsContestEnded(true);
         clearInterval(interval);
         return;
       }
-      
+
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
       const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
-      
+
       setTimeRemaining(`${days}일 ${hours}시간 ${minutes}분 ${seconds}초`);
     };
-    
+
     updateTimer();
     interval = setInterval(updateTimer, 1000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
@@ -145,85 +145,84 @@ export default function Home() {
       <header>
         <h1>2025 SNU FastMRI Challenge Leaderboard</h1>
       </header>
-
       <div id="counter" className={isContestEnded ? 'contest-ended' : ''}>
-        <div className="timer-header" onClick={() => setTimerExpanded(!timerExpanded)}>
-          {!isContestEnded && (
-            <div className="timer-label">Leaderboard Score 제출 마감까지</div>
-          )}
-          <button className="accordion-toggle" aria-expanded={timerExpanded}>
-            <svg 
-              width="16" 
-              height="16" 
-              viewBox="0 0 16 16" 
-              fill="currentColor"
-              style={{ transform: timerExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
-            >
-              <path d="M4 6l4 4 4-4H4z"/>
-            </svg>
-          </button>
+      {isContestEnded ? (
+        <div style={{textAlign: 'center', marginBottom: '15px', marginTop: '15px', padding: '0 10px 0 10px'}}>
+          <div className="closed-notice">{timeRemaining}</div>
+          <span className="closed-description"><strong>08/21 ~ 08/27</strong>: 재현성 검증 & Private Score Evaluation 기간</span>
         </div>
-        <div className={`timer-content ${timerExpanded ? 'expanded' : 'collapsed'}`}>
-          <div className="timer-container">
-            {isContestEnded ? (
-              <div style={{ color: '#c62828', fontSize: '24px', fontWeight: 'bold' }}>
-                {timeRemaining}
-              </div>
-            ) : (
+      ) : (
+        <>
+          {(() => {
+            const match = timeRemaining.match(/(\d+)일 (\d+)시간 (\d+)분 (\d+)초/);
+            if (!match) return <div>{timeRemaining}</div>;
+
+            const [, days, hours, minutes, seconds] = match;
+
+            return (
               <>
-                {(() => {
-                  const match = timeRemaining.match(/(\d+)일 (\d+)시간 (\d+)분 (\d+)초/);
-                  if (!match) return <div>{timeRemaining}</div>;
-                  
-                  const [, days, hours, minutes, seconds] = match;
-                  
-                  return (
-                    <>
-                      <div className="timer-unit">
-                        <div className="timer-digits">
-                          <div className="timer-digit">{days.padStart(2, '0')[0]}</div>
-                          <div className="timer-digit">{days.padStart(2, '0')[1]}</div>
-                        </div>
-                        <div className="timer-label-text">DAYS</div>
+                <div className="timer-header" onClick={() => setTimerExpanded(!timerExpanded)}>
+                  {!isContestEnded && (
+                    <div className="timer-label">Leaderboard Score 제출 마감까지</div>
+                  )}
+                  <button className="accordion-toggle" aria-expanded={timerExpanded}>
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      style={{ transform: timerExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                    >
+                      <path d="M4 6l4 4 4-4H4z" />
+                    </svg>
+                  </button>
+                </div>
+                <div className={`timer-content ${timerExpanded ? 'expanded' : 'collapsed'}`}>
+                  <div className="timer-container">
+                    <div className="timer-unit">
+                      <div className="timer-digits">
+                        <div className="timer-digit">{days.padStart(2, '0')[0]}</div>
+                        <div className="timer-digit">{days.padStart(2, '0')[1]}</div>
                       </div>
-                      
-                      <div className="timer-separator">:</div>
-                      
-                      <div className="timer-unit">
-                        <div className="timer-digits">
-                          <div className="timer-digit">{hours.padStart(2, '0')[0]}</div>
-                          <div className="timer-digit">{hours.padStart(2, '0')[1]}</div>
-                        </div>
-                        <div className="timer-label-text">HRS</div>
+                      <div className="timer-label-text">DAYS</div>
+                    </div>
+
+                    <div className="timer-separator">:</div>
+
+                    <div className="timer-unit">
+                      <div className="timer-digits">
+                        <div className="timer-digit">{hours.padStart(2, '0')[0]}</div>
+                        <div className="timer-digit">{hours.padStart(2, '0')[1]}</div>
                       </div>
-                      
-                      <div className="timer-separator">:</div>
-                      
-                      <div className="timer-unit">
-                        <div className="timer-digits">
-                          <div className="timer-digit">{minutes.padStart(2, '0')[0]}</div>
-                          <div className="timer-digit">{minutes.padStart(2, '0')[1]}</div>
-                        </div>
-                        <div className="timer-label-text">MIN</div>
+                      <div className="timer-label-text">HRS</div>
+                    </div>
+
+                    <div className="timer-separator">:</div>
+
+                    <div className="timer-unit">
+                      <div className="timer-digits">
+                        <div className="timer-digit">{minutes.padStart(2, '0')[0]}</div>
+                        <div className="timer-digit">{minutes.padStart(2, '0')[1]}</div>
                       </div>
-                      
-                      <div className="timer-separator">:</div>
-                      
-                      <div className="timer-unit">
-                        <div className="timer-digits">
-                          <div className="timer-digit">{seconds.padStart(2, '0')[0]}</div>
-                          <div className="timer-digit">{seconds.padStart(2, '0')[1]}</div>
-                        </div>
-                        <div className="timer-label-text">SEC</div>
+                      <div className="timer-label-text">MIN</div>
+                    </div>
+
+                    <div className="timer-separator">:</div>
+
+                    <div className="timer-unit">
+                      <div className="timer-digits">
+                        <div className="timer-digit">{seconds.padStart(2, '0')[0]}</div>
+                        <div className="timer-digit">{seconds.padStart(2, '0')[1]}</div>
                       </div>
-                    </>
-                  );
-                })()}
+                      <div className="timer-label-text">SEC</div>
+                    </div>
+                  </div>
+                </div>
               </>
-            )}
-          </div>
-        </div>
-      </div>
+            );
+          })()}
+        </>
+      )}</div>
 
       {noticeVisible && <Notice />}
 
@@ -248,38 +247,40 @@ export default function Home() {
                 </td>
               </tr> :
               currentLeaderboard.length === 0 ?
-              <tr style={{ 'textAlign': 'center' }}>
-                <td colSpan={4}>아직 제출한 팀이 없어요. 첫 번째 제출의 주인공이 되어보세요!</td>
-              </tr> :
-              currentLeaderboard.map((teamInfo) => (
-                <tr key={`${teamInfo.team}-rank${teamInfo.rank}`} className={`rank-${teamInfo.rank} ${teamInfo.rank <= 5 ? 'top' : ''}`}>
-                  <td className="rank">{teamInfo.rank}</td>
-                  <td className="name">{teamInfo.team}</td>
-                  <td className="score">{teamInfo.score ? teamInfo.score.toFixed(4) : 'N/A'}</td>
-                  <td className="timestamp">{parseDateString(teamInfo.timestamp)}</td>
-                </tr>
-              ))}
+                <tr style={{ 'textAlign': 'center' }}>
+                  <td colSpan={4}>아직 제출한 팀이 없어요. 첫 번째 제출의 주인공이 되어보세요!</td>
+                </tr> :
+                currentLeaderboard.map((teamInfo) => (
+                  <tr key={`${teamInfo.team}-rank${teamInfo.rank}`} className={`rank-${teamInfo.rank} ${teamInfo.rank <= 5 ? 'top' : ''}`}>
+                    <td className="rank">{teamInfo.rank}</td>
+                    <td className="name">{teamInfo.team}</td>
+                    <td className="score">{teamInfo.score ? teamInfo.score.toFixed(4) : 'N/A'}</td>
+                    <td className="timestamp">{parseDateString(teamInfo.timestamp)}</td>
+                  </tr>
+                ))}
           </tbody>
         </table>
       </div>
 
-      {!leaderboardLoading && currentLeaderboard.length > 0 && (
-        <div className="pagination">
-          <button
-            onClick={() => setLeaderboardPage(prev => Math.max(1, prev - 1))}
-            disabled={leaderboardPage === 1}
-          >
-            Previous
-          </button>
-          <span>Page {leaderboardPage} of {leaderboardTotalPages}</span>
-          <button
-            onClick={() => setLeaderboardPage(prev => Math.min(leaderboardTotalPages, prev + 1))}
-            disabled={leaderboardPage === leaderboardTotalPages}
-          >
-            Next
-          </button>
-        </div>
-      )}
+      {
+        !leaderboardLoading && currentLeaderboard.length > 0 && (
+          <div className="pagination">
+            <button
+              onClick={() => setLeaderboardPage(prev => Math.max(1, prev - 1))}
+              disabled={leaderboardPage === 1}
+            >
+              Previous
+            </button>
+            <span>Page {leaderboardPage} of {leaderboardTotalPages}</span>
+            <button
+              onClick={() => setLeaderboardPage(prev => Math.min(leaderboardTotalPages, prev + 1))}
+              disabled={leaderboardPage === leaderboardTotalPages}
+            >
+              Next
+            </button>
+          </div>
+        )
+      }
 
       <div id="last-submissions-container">
         <h2>Last Submissions</h2>
@@ -304,17 +305,17 @@ export default function Home() {
                   </td>
                 </tr> :
                 currentLastSubmissions.length === 0 ?
-                <tr style={{ 'textAlign': 'center' }}>
-                  <td colSpan={4}>아직 제출한 팀이 없어요. 첫 번째 제출의 주인공이 되어보세요!</td>
-                </tr> :
-                currentLastSubmissions.map((submission) => (
-                  <tr key={`${submission.team}-idx${submission.idx}`}>
-                    <td className="rank">{submission.idx}</td>
-                    <td className="name">{submission.team}</td>
-                    <td className="score">{isParsableFloat(submission.score) ? Number(submission.score).toFixed(4) : '0.????'}</td>
-                    <td className="timestamp">{parseDateString(submission.timestamp)}</td>
-                  </tr>
-                ))}
+                  <tr style={{ 'textAlign': 'center' }}>
+                    <td colSpan={4}>아직 제출한 팀이 없어요. 첫 번째 제출의 주인공이 되어보세요!</td>
+                  </tr> :
+                  currentLastSubmissions.map((submission) => (
+                    <tr key={`${submission.team}-idx${submission.idx}`}>
+                      <td className="rank">{submission.idx}</td>
+                      <td className="name">{submission.team}</td>
+                      <td className="score">{isParsableFloat(submission.score) ? Number(submission.score).toFixed(4) : '0.????'}</td>
+                      <td className="timestamp">{parseDateString(submission.timestamp)}</td>
+                    </tr>
+                  ))}
             </tbody>
           </table>
         </div>
@@ -337,6 +338,6 @@ export default function Home() {
           </div>
         )}
       </div>
-    </main>
+    </main >
   );
 }

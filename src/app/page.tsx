@@ -149,7 +149,7 @@ export default function Home() {
       {isContestEnded ? (
         <div style={{textAlign: 'center', marginBottom: '15px', marginTop: '15px', padding: '0 10px 0 10px'}}>
           <div className="closed-notice">{timeRemaining}</div>
-          <span className="closed-description"><strong>08/21 ~ 08/27</strong>: 재현성 검증 & Private Score Evaluation 기간</span>
+          <span className="closed-description"><strong>08/21 ~ 08/30</strong>(예정): 재현성 검증 & Private Score Evaluation 기간</span>
         </div>
       ) : (
         <>

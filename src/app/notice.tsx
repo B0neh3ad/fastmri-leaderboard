@@ -7,18 +7,18 @@ export default function Notice({
     <div className="notice-container">
       <div className="notice-icon">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="10" fill="#0969da"/>
+          <circle cx="12" cy="12" r="10" fill="#22c55e"/>
           <path d="M12 16v-4" stroke="white" strokeWidth="2" strokeLinecap="round"/>
           <path d="M12 8h.01" stroke="white" strokeWidth="2" strokeLinecap="round"/>
         </svg>
       </div>
       <div className="notice-content">
-        <div className="notice-title">Leaderboard Freeze 안내</div>
+        <div className="notice-title">Leaderboard 공개 (for Public Score)</div>
         <div className="notice-text">
-          <strong>Leaderboard가 freeze되었습니다.</strong> 현 시점에서 제출된 결과는 Leaderboard에 반영되지 않으나, <strong>유효한 제출</strong>입니다.
+          Leaderboard freeze가 해제되었습니다. 아래 순위는 마감 시점까지의 제출을 바탕으로 한 순위입니다.
         </div>
         <div className="notice-text">
-          대회 기간 중 <strong>마지막 제출</strong>이 leaderboard set에 대한 SSIM 점수로서 평가에 반영됩니다.
+          재현성 검증 및 Private Score Evaluation을 거치며, 최종 순위는 이와 달라질 수 있습니다.
         </div>
       </div>
       <button 

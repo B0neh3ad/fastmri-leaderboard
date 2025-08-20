@@ -140,12 +140,6 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    if(isContestEnded) {
-      setNoticeVisible(false);
-    }
-  }, [isContestEnded]);
-
   return (
     <main>
       <header>

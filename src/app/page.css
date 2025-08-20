@@ -51,8 +51,8 @@ header label {
 /* 공지 메시지 스타일 */
 .notice-container {
   width: 100%;
-  background-color: #dbeafe;
-  border: 1px solid #bfdbfe;
+  background-color: #dcfce7;
+  border: 1px solid #bbf7d0;
   border-radius: 8px;
   padding: 16px;
   margin-bottom: 24px;
@@ -78,13 +78,13 @@ header label {
 .notice-title {
   font-weight: 600;
   font-size: 0.875rem;
-  color: #1e40af;
+  color: #166534;
   margin-bottom: 4px;
 }
 
 .notice-text {
   font-size: 0.875rem;
-  color: #1e40af;
+  color: #166534;
   line-height: 1.5;
 }
 
@@ -98,7 +98,7 @@ header label {
   right: 12px;
   background: none;
   border: none;
-  color: #1e40af;
+  color: #166534;
   cursor: pointer;
   padding: 4px;
   border-radius: 4px;
@@ -109,11 +109,11 @@ header label {
 }
 
 .notice-close-btn:hover {
-  background-color: rgba(30, 64, 175, 0.1);
+  background-color: rgba(22, 101, 52, 0.1);
 }
 
 .notice-close-btn:focus {
-  outline: 2px solid #1e40af;
+  outline: 2px solid #166534;
   outline-offset: 2px;
 }
 

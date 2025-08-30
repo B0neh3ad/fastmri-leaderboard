@@ -7,11 +7,11 @@ interface FinalTeamInfo {
 
 export default function Final() {
   const FinalLeaderboard: FinalTeamInfo[] = [
-    { rank: 1, team: "???" },
-    { rank: 2, team: "???" },
-    { rank: 3, team: "???" },
-    { rank: 4, team: "???" },
-    { rank: 5, team: "???" },
+    { rank: 1, team: "SNUNet" },
+    { rank: 2, team: "EJ" },
+    { rank: 3, team: "2대1000" },
+    { rank: 4, team: "sMaRtIf𝕪" },
+    { rank: 5, team: "attention" },
   ]
 
   return (
